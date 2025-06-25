@@ -1,1 +1,126 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To Do List</title>
+  <style>
+    body{
+        background-color: #ead898;
+    }
+    .task {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: rgb(205, 82, 82); /* Default background */
+      color: white;
+      border-radius: 3px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .buttons {
+      margin-top: 10px;
+    }
+    .buttons button {
+      margin-right: 5px;
+    }
+    .timestamp {
+      font-size: 0.9em;
+      color: #fff;
+      margin-top: 5px;
+    }
+    #taskInput{
+        height: 20px;
+        width: 250px;
+    }
+    #taskInputBtn{
+        height: 25px;
+        width: 60px;
+    }
+
+  
+  </style>
+</head>
+<body>
+
+    <center>
+  <h1>To Do List</h1>
+
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button onclick="createTask()" id="taskInputBtn" class="buttons">Add</button>
+  </center>
+
+  <div id="taskContainer"></div>
+
+  <script>
+    function createTask() {
+      const input = document.getElementById("taskInput");
+      const taskText = input.value.trim();
+      if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+      }
+
+      // Create main task div
+      const taskDiv = document.createElement("div");
+      taskDiv.className = "task";
+
+      // Take the text
+      const taskBox = document.createElement("div");
+      taskBox.textContent = "Task: " + taskText;
+
+      // Creation time
+      const timeBox = document.createElement("div");
+      timeBox.className = "timestamp";
+      const createdAt = new Date();
+      timeBox.textContent = "Created at: " + createdAt.toLocaleString();
+
+      // Completion time 
+      const completionBox = document.createElement("div");
+      completionBox.className = "timestamp";
+
+      // Buttons box
+      const buttonBox = document.createElement("div");
+      buttonBox.className = "buttons";
+
+      const doneButton = document.createElement("button");
+      doneButton.textContent = "Done";
+      doneButton.onclick = () => {
+        taskDiv.style.backgroundColor = "#4ae934";
+        const completedAt = new Date();
+        completionBox.textContent = "Completed at: " + completedAt.toLocaleString();
+      };
+
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.onclick = () => {
+        taskDiv.remove();
+      };
+
+      //adding things to button box
+
+      buttonBox.appendChild(doneButton);
+      buttonBox.appendChild(deleteButton);
+
+      // Assemble task div
+      taskDiv.appendChild(taskBox);
+      taskDiv.appendChild(timeBox);
+      taskDiv.appendChild(completionBox); // initially empty
+      taskDiv.appendChild(buttonBox);
+
+      // Add to page
+      document.getElementById("taskContainer").appendChild(taskDiv);
+
+      // Clear input
+      input.value = "";
+      
+    }
+
+    document.getElementById("taskInput").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    createTask();
+  }
+});
+  </script>
+</body>
+</html>
